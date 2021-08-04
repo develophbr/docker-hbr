@@ -1,0 +1,19 @@
+version: '3.2'
+services:     
+    php:
+      build: 
+        context: .
+        dockerfile: Dockerfile-php
+      container_name: web
+      environment:
+        XDEBUG_CONFIG: "remote_host=${DOCKER_HOST_IP}"
+        PHP_IDE_CONFIG: "serverName=web"
+      ports:
+       - "80:80"
+       - "9000:9000"
+      restart: always
+      volumes:
+        - ${APPLICATION}:/var/www/html
+        - "./infra/php/php.ini:/etc/php5/apache2/php.ini"
+        - "./infra/apache/sites-available:/etc/apache2/sites-available/"
+        - "./infra/apache/logs:/var/log/apache2/"
